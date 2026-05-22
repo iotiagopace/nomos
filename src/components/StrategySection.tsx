@@ -1,39 +1,35 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Ear,Compass, Zap, Lightbulb } from 'lucide-react';
+import { Ear, Compass, Zap, Lightbulb } from 'lucide-react';
 import { HeroTheme } from '../types';
+import { ServiceItem } from '../hooks/useServices';
+
+const ICONS = [
+  <Ear size={20} className="text-nomos-pink" />,
+  <Compass size={20} className="text-nomos-pink" />,
+  <Zap size={20} className="text-nomos-pink" />,
+  <Lightbulb size={20} className="text-nomos-pink" />,
+];
 
 interface StrategySectionProps {
   theme: HeroTheme;
+  services: ServiceItem[];
 }
 
-export const StrategySection: React.FC<StrategySectionProps> = ({ theme }) => {
+export const StrategySection: React.FC<StrategySectionProps> = ({ theme, services }) => {
   const isLight = theme === 'light';
-  
-  // Design values based on the requested visual style
+
   const bgStyle = isLight ? 'bg-[#FFFFFF] text-black' : 'bg-[#0E0E0E] text-white';
   const textContrastColor = isLight ? 'text-black' : 'text-white';
   const textMutedColor = isLight ? 'text-black/70' : 'text-white/70';
   const borderContrastColor = isLight ? 'border-black/10' : 'border-white/10';
   const cardBgStyle = isLight ? 'bg-[#F9F7F2]' : 'bg-[#161616]';
 
-  const cards = [
-    {
-      title: "1. Escuta",
-      description: "Entendemos o negócio, o público, o mercado e os sinais que já existem na marca.",
-      icon: <Ear size={20} className="text-nomos-pink" />
-    },
-    {
-      title: "2. Direção",
-      description: "Organizamos posicionamento, voz, narrativa e presença para dar clareza ao caminho.",
-      icon: <Compass size={20} className="text-nomos-pink" />
-    },
-    {
-      title: "3. Criação com sentido",
-      description: "Transformamos estratégia em escolhas visuais, verbais e criativas mais consistentes.",
-      icon: <Zap size={20} className="text-nomos-pink" />
-    }
-  ];
+  const cards = services.map((s, i) => ({
+    title: s.title,
+    description: s.description,
+    icon: ICONS[i % ICONS.length],
+  }));
 
   return (
     <section 
