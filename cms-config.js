@@ -4,8 +4,8 @@ window.CMS_CONFIG = {
 
   // ─── TURSO DATABASE ───────────────────────────────────────────────────────
   // Crie seu banco em https://turso.tech e cole os valores abaixo.
-  tursoUrl:   "https://SEU-BANCO-SEU-ORG.turso.io",
-  tursoToken: "SEU_TOKEN_TURSO",
+  tursoUrl:   "https://nomos-iotiagopace.turso.io",
+  tursoToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Nzk0ODE3MzEsImlkIjoiMDE5ZTUxNWYtOGUwMS03MjlkLTg3MzEtM2Q3ZjhjYzViODQ3IiwicmlkIjoiMDZmNTlmNjAtMjZmYi00YWUyLWIyMjYtMjQ5YTQ2OTA2MGJhIn0.QIrPh-N7CIa7fOJ8rWvZhDfYtJdfV8WxXqU6-eVzNNlie9_GaKCjUhm4WyEGWReYrgt4guoUv89OSohOVqh5AQ",
 
   // ─── CREDENCIAIS DO PAINEL ────────────────────────────────────────────────
   adminEmail:    "admin@nomosestudio.com.br",
