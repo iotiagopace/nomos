@@ -1,11 +1,16 @@
 window.CMS_CONFIG = {
   brandName:  "Nomos Estúdio",
   shortName:  "NM",
-  supabaseUrl:    "https://SEU-PROJETO.supabase.co",
-  supabaseAnonKey:"SUA_PUBLISHABLE_KEY",
-  imageBucket:        "nomos-images",
-  settingsTableName:  "site_settings",
-  leadsTableName:     "leads",
+
+  // ─── TURSO DATABASE ───────────────────────────────────────────────────────
+  // Crie seu banco em https://turso.tech e cole os valores abaixo.
+  tursoUrl:   "https://SEU-BANCO-SEU-ORG.turso.io",
+  tursoToken: "SEU_TOKEN_TURSO",
+
+  // ─── CREDENCIAIS DO PAINEL ────────────────────────────────────────────────
+  adminEmail:    "admin@nomosestudio.com.br",
+  adminPassword: "SUA_SENHA",
+
   publicStatus: "published",
   draftStatus:  "draft",
   defaultCover: "",
@@ -13,23 +18,21 @@ window.CMS_CONFIG = {
   // Logo do estúdio — descomente quando tiver o arquivo
   // logoUrl: "assets/logo-nomos.svg",
 
-  // ─────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
   // IMAGENS DA HOME
-  // ─────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
   homeImages: [
     { key: "hero_bg",    label: "Hero — Vídeo/Imagem de fundo", defaultSrc: "" },
     { key: "about_img",  label: "Sobre — Imagem da seção",      defaultSrc: "" },
     { key: "manifesto",  label: "Manifesto — Imagem de apoio",  defaultSrc: "" }
   ],
 
-  // ─────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
   // SEÇÕES DO PAINEL
-  // Cada seção alimenta diretamente o frontend React.
-  // ─────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
   sections: [
 
-    // ── PORTFÓLIO ─────────────────────────────────────────
-    // Alimenta: src/components/ProjectsGrid.tsx → projects[]
+    // ── PORTFÓLIO ──────────────────────────────────────────────────────────
     {
       id:    "projetos",
       label: "Projetos",
@@ -52,8 +55,7 @@ window.CMS_CONFIG = {
       ]
     },
 
-    // ── SERVIÇOS ──────────────────────────────────────────
-    // Alimenta: src/components/StrategySection.tsx
+    // ── SERVIÇOS ───────────────────────────────────────────────────────────
     {
       id:    "servicos",
       label: "Serviços",
@@ -70,8 +72,7 @@ window.CMS_CONFIG = {
       ]
     },
 
-    // ── PROCESSO ──────────────────────────────────────────
-    // Alimenta: src/components/ProcessRow.tsx → steps
+    // ── PROCESSO ───────────────────────────────────────────────────────────
     {
       id:    "processo",
       label: "Processo",
@@ -86,9 +87,7 @@ window.CMS_CONFIG = {
       ]
     },
 
-    // ── RELACIONAMENTO ────────────────────────────────────
-
-    // Alimenta: seção de equipe do site
+    // ── EQUIPE ─────────────────────────────────────────────────────────────
     {
       id:    "equipe",
       label: "Equipe",
@@ -104,7 +103,7 @@ window.CMS_CONFIG = {
       ]
     },
 
-    // Alimenta: seção de depoimentos / social proof
+    // ── DEPOIMENTOS ────────────────────────────────────────────────────────
     {
       id:    "depoimentos",
       label: "Depoimentos",
@@ -120,7 +119,7 @@ window.CMS_CONFIG = {
       ]
     },
 
-    // FAQ do estúdio
+    // ── FAQ ────────────────────────────────────────────────────────────────
     {
       id:    "faq",
       label: "FAQ",
