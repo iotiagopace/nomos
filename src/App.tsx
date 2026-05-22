@@ -7,7 +7,8 @@ import { HeroContent } from './components/HeroContent';
 import { AboutManifesto } from './components/AboutManifesto';
 import { StrategySection } from './components/StrategySection';
 import { ProjectsGrid } from './components/ProjectsGrid';
-import { NavLinkItem, ProcessStep, HeroTheme } from './types';
+import { CaseModal } from './components/CaseModal';
+import { NavLinkItem, ProcessStep, HeroTheme, ProjectItem } from './types';
 
 export default function App() {
   // Theme state: defaults to light (an elegant, clean cream overlay over grayscale/ambient footage)
@@ -17,6 +18,7 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
   
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -26,6 +28,46 @@ export default function App() {
     { id: 'estrategia', label: 'Estratégia', href: '#estrategia' },
     { id: 'criacao', label: 'Criação', href: '#criacao' },
     { id: 'contato', label: 'Contato', href: '#contato' },
+  ];
+
+  // Projects shared between grid and modal
+  const projects: ProjectItem[] = [
+    {
+      id: 'lume',
+      title: 'Lume Café',
+      category: 'Posicionamento & Identidade',
+      year: '2026',
+      imageUrl: 'https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&w=800&q=85',
+      description: 'Construção verbal e estética para cafeteria especial que visa transformar manhãs em rituais.',
+      tags: ['Branding', 'Estratégia', 'Visual'],
+    },
+    {
+      id: 'kairos',
+      title: 'Kairós Editorial',
+      category: 'Voz de Marca & Editorial',
+      year: '2025',
+      imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=85',
+      description: 'Série literária com foco em expressividade tipográfica de alto impacto dita do jeito certo.',
+      tags: ['Editorial', 'Verbal', 'Tipografia'],
+    },
+    {
+      id: 'planalto',
+      title: 'Planalto Sul',
+      category: 'Experiência & Presença',
+      year: '2026',
+      imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85',
+      description: 'Branding imobiliário refinado para empreendimento de alto padrão no interior do estado.',
+      tags: ['Digital', 'Estratégia', 'Branding'],
+    },
+    {
+      id: 'soma',
+      title: 'SOMA Cosméticos',
+      category: 'Design de Embalagem',
+      year: '2025',
+      imageUrl: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=85',
+      description: 'Design de produto sustentável com material tátil de alta qualidade e paleta minimalista.',
+      tags: ['Embalagem', 'Visual', 'Sustentável'],
+    },
   ];
 
   // Creative process list as requested
@@ -251,7 +293,8 @@ export default function App() {
       {/* SECTION 2: Premium Projects Gallery Grid containing horizontal hover structures */}
       <ProjectsGrid 
         theme={theme} 
-        onProjectClick={(projectTitle) => triggerNotification(`Portfólio: Abrindo ${projectTitle}`)} 
+        projects={projects}
+        onProjectClick={(projectTitle) => setSelectedProject(projectTitle)} 
       />
 
       {/* FOOTER: Professional brand metadata representation */}
@@ -278,6 +321,14 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Case Study Modal */}
+      <CaseModal
+        projectTitle={selectedProject}
+        projects={projects}
+        theme={theme}
+        onClose={() => setSelectedProject(null)}
+      />
 
       {/* Dynamic Action Notification Toast */}
       <AnimatePresence>
