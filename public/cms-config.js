@@ -8,8 +8,8 @@ window.CMS_CONFIG = {
   tursoToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Nzk0ODE3MzEsImlkIjoiMDE5ZTUxNWYtOGUwMS03MjlkLTg3MzEtM2Q3ZjhjYzViODQ3IiwicmlkIjoiMDZmNTlmNjAtMjZmYi00YWUyLWIyMjYtMjQ5YTQ2OTA2MGJhIn0.QIrPh-N7CIa7fOJ8rWvZhDfYtJdfV8WxXqU6-eVzNNlie9_GaKCjUhm4WyEGWReYrgt4guoUv89OSohOVqh5AQ",
 
   // ─── CREDENCIAIS DO PAINEL ────────────────────────────────────────────────
-  adminEmail:    "admin@nomosestudio.com.br",
-  adminPassword: "SUA_SENHA",
+  adminEmail:    "emanuelapribeiro@hotmail.com",
+  adminPassword: "nomos123",
 
   publicStatus: "published",
   draftStatus:  "draft",
