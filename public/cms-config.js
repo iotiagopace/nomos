@@ -15,8 +15,8 @@ window.CMS_CONFIG = {
   draftStatus:  "draft",
   defaultCover: "",
 
-  // Logo do estúdio — descomente quando tiver o arquivo
-  // logoUrl: "assets/logo-nomos.svg",
+
+  logoUrl: "/avatar2.png",
 
   // ─────────────────────────────────────────────────────────────────────────
   // IMAGENS DA HOME
