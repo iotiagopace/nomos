@@ -265,6 +265,17 @@ export default function App() {
           <p className="text-[9px] tracking-widest uppercase max-w-sm leading-relaxed">
             Criatividade e estratégia de verdade. Da imersão ao refinamento sem firulas desinteressantes.
           </p>
+          <p className="text-[9px] tracking-widest uppercase">
+            Desenvolvido por{' '}
+            <a
+              href="https://metry.cc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-nomos-pink hover:opacity-70 transition-opacity"
+            >
+              metry.cc
+            </a>
+          </p>
         </div>
       </footer>
 
