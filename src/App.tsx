@@ -194,6 +194,7 @@ export default function App() {
             theme={theme}
             onLinkClick={handleLinkClick}
             toggleTheme={toggleTheme}
+            settings={settings}
           />
         </div>
 
@@ -204,7 +205,7 @@ export default function App() {
 
         {/* 1.5 Bottom Main Core Message & CTAs */}
         <div className="relative z-10 w-full">
-          <HeroContent theme={theme} />
+          <HeroContent theme={theme} settings={settings} />
         </div>
 
         {/* 1.6 Precision Margin Widgets (Time / Video Controllers / Location Coordinates) */}
@@ -258,10 +259,11 @@ export default function App() {
       <StrategySection theme={theme} services={services} />
 
       {/* SECTION 2: Premium Projects Gallery Grid containing horizontal hover structures */}
-      <ProjectsGrid 
-        theme={theme} 
+      <ProjectsGrid
+        theme={theme}
         projects={projects}
-        onProjectClick={(projectTitle) => setSelectedProject(projectTitle)} 
+        settings={settings}
+        onProjectClick={(projectTitle) => setSelectedProject(projectTitle)}
       />
 
       {/* FOOTER: Professional brand metadata representation */}
@@ -294,6 +296,7 @@ export default function App() {
         projectTitle={selectedProject}
         projects={projects}
         theme={theme}
+        settings={settings}
         onClose={() => setSelectedProject(null)}
       />
 

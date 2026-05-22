@@ -3,11 +3,14 @@ import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { HeroTheme } from '../types';
 
+import { SiteSettings } from '../hooks/useSiteSettings';
+
 interface HeroContentProps {
   theme: HeroTheme;
+  settings: SiteSettings;
 }
 
-export const HeroContent: React.FC<HeroContentProps> = ({ theme }) => {
+export const HeroContent: React.FC<HeroContentProps> = ({ theme, settings }) => {
   const textContrastColor = theme === 'light' ? 'text-black' : 'text-white';
   const textMutedColor = theme === 'light' ? 'text-black/70' : 'text-white/70';
 
@@ -70,7 +73,7 @@ export const HeroContent: React.FC<HeroContentProps> = ({ theme }) => {
           animate="visible"
         >
           <a
-            href="https://wa.me/5517992723486?text=Ol%C3%A1%21+Encontrei+a+Nomos+Est%C3%Badio+atrav%C3%A9s+do+site+e+gostaria+de+bater+um+papo."
+            href={`https://wa.me/${settings.whatsapp}?text=Ol%C3%A1%21+Encontrei+a+Nomos+Est%C3%Badio+atrav%C3%A9s+do+site+e+gostaria+de+bater+um+papo.`}
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center space-x-2 text-nomos-pink text-base sm:text-xl md:text-2xl font-bold uppercase tracking-widest relative overflow-hidden py-1 whitespace-nowrap"

@@ -3,14 +3,15 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, X, Menu, Phone, Instagram, Send } from 'lucide-react';
 import { Logo } from './Logo';
 import { NavLinkItem, HeroTheme } from '../types';
+import { SiteSettings } from '../hooks/useSiteSettings';
 
 interface NavigationProps {
   navLinks: NavLinkItem[];
   theme: HeroTheme;
   logoUrl?: string;
   onLinkClick: (sectionId: string) => void;
-  // A toggle for the hero style (Light / Dark) for presentation options!
   toggleTheme: () => void;
+  settings: SiteSettings;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({
@@ -19,6 +20,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   logoUrl,
   onLinkClick,
   toggleTheme,
+  settings,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -180,22 +182,26 @@ export const Navigation: React.FC<NavigationProps> = ({
             <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 text-sm text-gray-400">
               <div className="space-y-2">
                 <p className="subtitle uppercase text-[10px] tracking-widest text-nomos-pink font-semibold">Contato Direto</p>
-                <a 
-                  href="tel:+5517992723486" 
-                  className="flex items-center space-x-2 text-white hover:text-nomos-pink transition-colors"
-                >
-                  <Phone size={14} />
-                  <span>(17) 99272-3486</span>
-                </a>
-                <a 
-                  href="https://instagram.com/nomosestudio"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-white hover:text-nomos-pink transition-colors"
-                >
-                  <Instagram size={14} />
-                  <span>@nomosestudio</span>
-                </a>
+                {settings.phone && (
+                  <a
+                    href={`tel:+${settings.phone.replace(/\D/g,'')}`}
+                    className="flex items-center space-x-2 text-white hover:text-nomos-pink transition-colors"
+                  >
+                    <Phone size={14} />
+                    <span>{settings.phone}</span>
+                  </a>
+                )}
+                {settings.instagram && (
+                  <a
+                    href={settings.instagram.startsWith('http') ? settings.instagram : `https://instagram.com/${settings.instagram.replace('@','')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 text-white hover:text-nomos-pink transition-colors"
+                  >
+                    <Instagram size={14} />
+                    <span>{settings.instagram.startsWith('@') ? settings.instagram : `@${settings.instagram.replace(/.*instagram\.com\//,'')}`}</span>
+                  </a>
+                )}
               </div>
 
               {/* Central brand concept statement */}
@@ -209,7 +215,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               {/* Bold Pink CTA link inside overflow menu */}
               <div>
                 <a
-                  href="https://wa.me/5517992723486"
+                  href={`https://wa.me/${settings.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center space-x-2 bg-nomos-pink hover:bg-white hover:text-black text-white font-bold uppercase text-xs tracking-widest px-6 py-3 rounded-full transition-all duration-300"

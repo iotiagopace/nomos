@@ -2,14 +2,16 @@ import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, FolderHeart, Sparkles, MoveRight, ArrowRightLeft } from 'lucide-react';
 import { ProjectItem, HeroTheme } from '../types';
+import { SiteSettings } from '../hooks/useSiteSettings';
 
 interface ProjectsGridProps {
   theme: HeroTheme;
   projects: ProjectItem[];
+  settings: SiteSettings;
   onProjectClick: (title: string) => void;
 }
 
-export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ theme, projects, onProjectClick }) => {
+export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ theme, projects, settings, onProjectClick }) => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [selectedTag, setSelectedTag] = useState<string>('Todos');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -240,7 +242,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ theme, projects, onP
         </div>
 
         <a
-          href="https://wa.me/5517992723486?text=Olá+Nomos%2C+estou+interessado+em+desenvolver+nosso+posicionamento+estratégico."
+          href={`https://wa.me/${settings.whatsapp}?text=Olá+Nomos%2C+estou+interessado+em+desenvolver+nosso+posicionamento+estratégico.`}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-black hover:bg-nomos-pink text-white border border-neutral-800 hover:border-nomos-pink text-xs uppercase font-bold tracking-widest px-6 py-3 rounded-full transition-all duration-300 flex items-center space-x-2"

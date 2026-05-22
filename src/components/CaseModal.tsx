@@ -2,15 +2,17 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowUpRight, Tag } from 'lucide-react';
 import { ProjectItem, HeroTheme } from '../types';
+import { SiteSettings } from '../hooks/useSiteSettings';
 
 interface CaseModalProps {
   projectTitle: string | null;
   projects: ProjectItem[];
   theme: HeroTheme;
+  settings: SiteSettings;
   onClose: () => void;
 }
 
-export const CaseModal: React.FC<CaseModalProps> = ({ projectTitle, projects, theme, onClose }) => {
+export const CaseModal: React.FC<CaseModalProps> = ({ projectTitle, projects, theme, settings, onClose }) => {
   const project = projects.find(p => p.title === projectTitle);
 
   return (
@@ -114,7 +116,7 @@ export const CaseModal: React.FC<CaseModalProps> = ({ projectTitle, projects, th
                   Quer um projeto como esse?
                 </p>
                 <a
-                  href={`https://wa.me/5517992723486?text=Olá+Nomos%2C+vi+o+case+${encodeURIComponent(project.title)}+e+tenho+interesse.`}
+                  href={`https://wa.me/${settings.whatsapp}?text=Olá+Nomos%2C+vi+o+case+${encodeURIComponent(project.title)}+e+tenho+interesse.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#E9007F] hover:bg-black text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full transition-all duration-300"
