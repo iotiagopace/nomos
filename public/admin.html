@@ -896,12 +896,13 @@ function renderEditor() {
   let html=`<div class="f-sec">Imagens</div>
     <div class="photos" id="photo-list">
       ${photos.map((p,i)=>thumbHtml(p,i)).join('')}
-      <div class="add-photo" onclick="addPhotoUrl()"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>URL</div>
+      <div class="add-photo" onclick="document.getElementById('photo-input').click()"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload</div>
+      <div class="add-photo" onclick="addPhotoUrl()"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>URL</div>
     </div>
     <div class="f-sec">Antes e depois</div>
     <div class="two">
-      <div class="add-photo" style="width:100%;height:112px" onclick="setBeforeAfterUrl('before')">${beforeImage?`<img src="${esc(beforeImage)}" style="width:100%;height:100%;object-fit:cover">`:'<span>Antes (URL)</span>'}</div>
-      <div class="add-photo" style="width:100%;height:112px" onclick="setBeforeAfterUrl('after')">${afterImage?`<img src="${esc(afterImage)}" style="width:100%;height:100%;object-fit:cover">`:'<span>Depois (URL)</span>'}</div>
+      <div class="add-photo" style="width:100%;height:112px" onclick="chooseBeforeAfter('before')">${beforeImage?`<img src="${esc(beforeImage)}" style="width:100%;height:100%;object-fit:cover">`:'<span>Antes</span>'}</div>
+      <div class="add-photo" style="width:100%;height:112px" onclick="chooseBeforeAfter('after')">${afterImage?`<img src="${esc(afterImage)}" style="width:100%;height:100%;object-fit:cover">`:'<span>Depois</span>'}</div>
     </div>
     <div class="f-sec">Geral</div>
     <label class="label">Título *</label><input class="input" id="f-title" value="${escA(editing?.title||'')}">
@@ -933,8 +934,42 @@ function fieldInput(f, val) {
 }
 function thumbHtml(src,i){ return `<div class="thumb"><img src="${esc(src)}"><button onclick="removePhoto(${i})">×</button></div>`; }
 function addPhotoUrl(){ const url=prompt('Cole a URL da imagem:');if(!url?.trim())return;photos.push(url.trim());renderEditor(); }
-function setBeforeAfterUrl(kind){ const url=prompt('Cole a URL da imagem:');if(!url?.trim())return;if(kind==='before')beforeImage=url.trim();else afterImage=url.trim();renderEditor(); }
 function removePhoto(i){ photos.splice(i,1);renderEditor(); }
+function chooseBeforeAfter(kind){
+  const m=document.createElement('div');m.style.cssText='position:fixed;inset:0;background:rgba(10,12,28,.5);z-index:100;display:flex;align-items:center;justify-content:center';
+  m.innerHTML=`<div style="background:#fff;border-radius:16px;padding:28px;width:min(340px,90%);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+    <h3 style="margin-bottom:18px;font-size:16px">Imagem — ${kind==='before'?'Antes':'Depois'}</h3>
+    <button class="btn" id="ba-upload" style="width:100%;margin-bottom:10px">Upload do computador</button>
+    <button class="btn secondary" id="ba-url" style="width:100%;margin-bottom:10px">Colar URL</button>
+    <button class="btn secondary" id="ba-cancel" style="width:100%">Cancelar</button>
+  </div>`;
+  document.body.appendChild(m);
+  m.querySelector('#ba-cancel').onclick=()=>m.remove();
+  m.querySelector('#ba-url').onclick=()=>{m.remove();const url=prompt('Cole a URL da imagem:');if(!url?.trim())return;if(kind==='before')beforeImage=url.trim();else afterImage=url.trim();renderEditor();};
+  m.querySelector('#ba-upload').onclick=()=>{m.remove();const inp=document.getElementById(kind+'-input');inp.click();};
+}
+function onBeforeAfter(kind, inp){
+  if(!inp.files[0])return;
+  fileToDataUrl(inp.files[0],url=>{if(kind==='before')beforeImage=url;else afterImage=url;renderEditor();});
+  inp.value='';
+}
+function onPhotosChosen(inp){
+  Array.from(inp.files).forEach(f=>fileToDataUrl(f,url=>{photos.push(url);renderEditor();}));
+  inp.value='';
+}
+function fileToDataUrl(file,cb){
+  const img=new Image();
+  img.onload=()=>{
+    const MAX=1200;
+    let w=img.width,h=img.height;
+    if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    cb(c.toDataURL('image/webp',0.82));
+    URL.revokeObjectURL(img.src);
+  };
+  img.src=URL.createObjectURL(file);
+}
 function videoInputs(){ if(!videos.length)videos=[''];return videos.map((v,i)=>`<div class="video-row"><input class="input" value="${escA(v)}" oninput="videos[${i}]=this.value"><button class="btn danger" onclick="removeVideo(${i})" style="padding:0;width:40px">×</button></div>`).join(''); }
 function addVideo(){ videos.push('');renderEditor(); }
 function removeVideo(i){ videos.splice(i,1);renderEditor(); }
@@ -1094,10 +1129,12 @@ function renderHomeImages(){
   document.getElementById('home-grid').innerHTML=homeFields.map(f=>`
     <div class="hi-card">
       <div class="hi-cover" onclick="chooseHome('${f.key}')"><img src="${esc(homeImages[f.key]||f.defaultSrc)}" alt="${esc(f.label)}"></div>
-      <div class="hi-body"><b>${esc(f.label)}</b><div class="hi-btns"><button class="btn secondary" onclick="chooseHome('${f.key}')">Trocar</button><button class="btn secondary" onclick="resetHome('${f.key}')">Padrão</button></div></div>
+      <div class="hi-body"><b>${esc(f.label)}</b><div class="hi-btns"><button class="btn secondary" onclick="uploadHome('${f.key}')">Upload</button><button class="btn secondary" onclick="chooseHome('${f.key}')">URL</button><button class="btn secondary" onclick="resetHome('${f.key}')">Padrão</button></div></div>
     </div>`).join('');
 }
 function chooseHome(key){const url=prompt('Cole a URL da imagem:');if(!url?.trim())return;homeImages[key]=url.trim();renderHomeImages();}
+function uploadHome(key){homeKey=key;document.getElementById('home-input').click();}
+function onHomeChosen(inp){if(!inp.files[0])return;fileToDataUrl(inp.files[0],url=>{homeImages[homeKey]=url;renderHomeImages();});inp.value='';}
 function resetHome(key){const f=homeFields.find(x=>x.key===key);homeImages[key]=f.defaultSrc;renderHomeImages();}
 async function saveHomeImages(){
   if(DEMO){alert('Modo demo: alterações não são salvas.');return;}
